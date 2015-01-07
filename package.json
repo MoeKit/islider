@@ -1,7 +1,7 @@
 {
   "name": "islider",
   "version": "0.0.1",
-  "description": "",
+  "description": "轻量的焦点轮播图",
   "keywords": [],
   "homepage": "",
   "author": "airyland <airyland@qq.com>",
@@ -15,6 +15,7 @@
   "licenses": "MIT",
   "spm": {
     "main": "index.js",
+    "output": ["islider.css"],
     "dependencies": {
       "jquery": "1.8.3"
     },
