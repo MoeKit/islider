@@ -12,22 +12,27 @@ var islider = function(option) {
     this.loadImage();
 
     this.buildDots();
-    _this.loop = setTimeout(function() {
+    setTimeout(function() {
         _this.auto();
-    }, _this.interval);
+    }, 2000);
+
+
     _this.$target.hover(function() {
         _this.stop();
         _this.$dots.removeClass('islider-dots-dark').addClass('islider-dots-bright');
     }, function() {
         _this.loop = setTimeout(function() {
             _this.auto();
-        }, _this.interval);
-        _this.$dots.removeClass('islider-dots-bright').addClass('islider-dots-dark');
+        }, _this.interval + _this.fadeTime);
+
+        setTimeout(function() {
+            _this.$dots.removeClass('islider-dots-bright').addClass('islider-dots-dark');
+        }, 2000);
     });
 
     setTimeout(function() {
         _this.$dots.addClass('islider-dots-dark');
-    }, 1000);
+    }, 2000);
 
 };
 
@@ -49,13 +54,15 @@ islider.prototype.auto = function() {
         this.i = 0;
     }
     this.goto(this.i);
-    setTimeout(function() {
+    clearTimeout(_this.loop);
+    _this.loop = setTimeout(function() {
         _this.auto();
-    }, _this.interval);
+    }, _this.interval + _this.fadeTime);
 };
 
 
 islider.prototype.goto = function(index, animate) {
+    console.log('goto', index)
     animate = animate || true;
     var _this = this;
     var curr = _this.$target.find('li:eq(' + index + ')'),
@@ -76,7 +83,9 @@ islider.prototype.goto = function(index, animate) {
             'z-index': 1,
             'opacity': 0.1
         });
+
         $dot.find('span').addClass('islider-dots-full');
+
     });
 };
 
@@ -90,11 +99,13 @@ islider.prototype.buildDots = function() {
         var spanClassName = i === 0 ? ' islider-dots-full' : '';
         html += '<li' + className + '><span class="islider-dots-bg"><span class="islider-dots-inner' + spanClassName + '"></span></span></li>'
     }
-    this.$dots = $('<ul class="islider-dots">' + html + '</ul>').hide().appendTo(this.$target).fadeIn();
+    this.$dots = $('<ul class="islider-dots">' + html + '</ul>').hide().appendTo(this.$target);
     var width = this.$dots.width();
     this.$dots.css({
         'margin-left': '-' + width / 2 + 'px'
     });
+
+    this.$dots.fadeIn();
 
     this.$dots.find('li').click(function() {
         _this.stop();
