@@ -4,6 +4,12 @@ var islider = function(option) {
     this.$target.find('ul').addClass('islider-box-ul');
     this.$list = this.$target.find('ul>li');
     this.count = this.$list.length;
+
+    // if only one item
+    if (this.count <= 1) {
+        return;
+    }
+
     this.fadeTime = 250;
     this.interval = 3000;
     var _this = this;
@@ -38,13 +44,15 @@ var islider = function(option) {
 
 islider.prototype.loadImage = function() {
     var $imgs = this.$target.find('img[data-src]');
-    $imgs.each(function(index, one) {
-        (function(index, one) {
-            $(one).load(function() {
-                // @todo
-            }).attr('src', $(one).attr('data-src')).removeAttr('data-src');
-        })(index, one);
-    });
+    if ($imgs.length) {
+        $imgs.each(function(index, one) {
+            (function(index, one) {
+                $(one).load(function() {
+                    // @todo
+                }).attr('src', $(one).attr('data-src')).removeAttr('data-src');
+            })(index, one);
+        });
+    }
 };
 
 islider.prototype.auto = function() {
@@ -62,7 +70,6 @@ islider.prototype.auto = function() {
 
 
 islider.prototype.goto = function(index, animate) {
-    console.log('goto', index)
     animate = animate || true;
     var _this = this;
     var curr = _this.$target.find('li:eq(' + index + ')'),
@@ -118,11 +125,11 @@ islider.prototype.buildDots = function() {
 
 
 islider.prototype.next = function() {
-
+    // @todo
 };
 
 islider.prototype.prev = function() {
-
+    // @todo
 };
 
 islider.prototype.destroy = function() {
